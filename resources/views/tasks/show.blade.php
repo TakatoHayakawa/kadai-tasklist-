@@ -20,6 +20,10 @@
             <th>ステータス</th>
             <td>{{ $task->status }}</td>
         </tr>
+        <tr>
+            <th>制作者ID</th>
+            <td>{{ $task->user_id }}</td>
+        </tr>
     </table>
 
     {{-- タスク編集ページへのリンク --}}

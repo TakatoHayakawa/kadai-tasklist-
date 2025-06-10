@@ -8,6 +8,7 @@
 
     <div class="flex justify-center">
         <form method="POST" action="{{ route('tasks.store') }}" class="w-1/2">
+            <input type="text" name="user_id" class="hidden" value="{{ Auth::user()->id }}">
             @csrf
 
                 <div class="form-control my-4">

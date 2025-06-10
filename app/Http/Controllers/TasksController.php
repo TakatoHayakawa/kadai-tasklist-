@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
@@ -12,8 +13,11 @@ class TasksController extends Controller
      */
     public function index()
     {
+
         // タスク一覧を取得
-        $tasks = Task::all();
+        // $tasks = Task::all();
+        $id=Auth::id();
+        $tasks = Task::where('user_id','=',$id)->get();
 
         // タスク一覧ビューでそれを表示
         return view('tasks.index', [
@@ -48,6 +52,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->content = $request->content;
         $task->status = $request->status;
+        $task->user_id = $request->user_id;
         $task->save();
 
         // トップページへリダイレクトさせる
@@ -61,6 +66,10 @@ class TasksController extends Controller
     {
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
+        
+        if(Auth::id() != $task->user_id){
+            return redirect("/");
+        }
 
         // メッセージ詳細ビューでそれを表示
         return view('tasks.show', [
@@ -91,7 +100,7 @@ class TasksController extends Controller
         $request->validate([
             'status' => 'required|max:10',
         ]);
-        
+
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
         // メッセージを更新
