@@ -12,6 +12,7 @@ class TasksController extends Controller
      */
     public function index()
     {
+        
         // タスク一覧を取得
         $tasks = Task::all();
 
@@ -91,7 +92,7 @@ class TasksController extends Controller
         $request->validate([
             'status' => 'required|max:10',
         ]);
-        
+
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
         // メッセージを更新
